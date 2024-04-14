@@ -9,10 +9,12 @@ export function generateStaticParams() {
     {
       slug: ['foo/bar'], // ie. /foo/bar
     },
-  ]
+  ];
 }
 
-export default async function Page({params}: {
+export default async function Page({
+  params,
+}: {
   params: {
     slug: string[] | undefined;
   };
@@ -25,7 +27,14 @@ export default async function Page({params}: {
   const uri = getUriFromSegments(slug);
   const page = await getPageWithUri(uri);
 
-  return <p>{page ? page.title : 'NOT FOUND'} - {uri}</p>;
+  return (
+    <div>
+      <p>
+        {page ? page.title : 'NOT FOUND'} - {uri}
+      </p>
+      <pre>{JSON.stringify(params, null, 2)}</pre>
+    </div>
+  );
 }
 
 function getUriFromSegments(slug: string[]) {
@@ -46,10 +55,10 @@ const pages = {
   '/': {
     title: 'Home',
   },
-  'foo': {
+  foo: {
     title: 'Foo',
   },
   'foo/bar': {
     title: 'Bar',
   },
-}
+};
